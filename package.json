@@ -14,9 +14,7 @@
 		"test:integration": "playwright test",
 		"test:unit": "vitest"
 	},
-	"devDependencies": {},
-	"type": "module",
-	"dependencies": {
+	"devDependencies": {
 		"@playwright/test": "^1.28.1",
 		"@supabase/auth-helpers-sveltekit": "^0.10.2",
 		"@supabase/supabase-js": "^2.33.1",
@@ -36,5 +34,6 @@
 		"typescript": "^5.0.0",
 		"vite": "^4.4.2",
 		"vitest": "^0.32.2"
-	}
+	},
+	"type": "module"
 }
