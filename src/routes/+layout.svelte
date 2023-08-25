@@ -1,67 +1,37 @@
-<script>
-	import { browser } from '$app/environment';
-	import { page } from '$app/stores';
-	import { webVitals } from '$lib/vitals';
-	import Header from './Header.svelte';
-	import './styles.css';
+<script lang="ts">
+	import type { LayoutData } from './$types'
 
-	/** @type {import('./$types').LayoutServerData} */
-	export let data;
+	export let data: LayoutData
 
-	$: if (browser && data?.analyticsId) {
-		webVitals({
-			path: $page.url.pathname,
-			params: $page.params,
-			analyticsId: data.analyticsId
-		});
-	}
+	const { user } = data
 </script>
 
-<div class="app">
-	<Header />
+<header>
+	<h1><a href="/">Optimeese</a></h1>
 
-	<main>
-		<slot />
-	</main>
+	<nav>
+		<a href="/">Home</a>
+		{#if user}
+			<a href="/profile">{user.email}</a>
+		{:else}
+			<a href="/auth">Log in</a>
+		{/if}
+	</nav>
+</header>
 
-	<footer>
-		<p>visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to learn SvelteKit</p>
-	</footer>
-</div>
+<slot />
 
 <style>
-	.app {
-		display: flex;
-		flex-direction: column;
-		min-height: 100vh;
-	}
+	@import '/src/css/style.css';
 
-	main {
-		flex: 1;
+	header {
 		display: flex;
-		flex-direction: column;
-		padding: 1rem;
-		width: 100%;
-		max-width: 64rem;
-		margin: 0 auto;
-		box-sizing: border-box;
-	}
-
-	footer {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
+		justify-content: space-between;
 		align-items: center;
-		padding: 12px;
-	}
 
-	footer a {
-		font-weight: bold;
-	}
-
-	@media (min-width: 480px) {
-		footer {
-			padding: 12px 0;
+		& a {
+			text-decoration: none;
+			color: inherit;
 		}
 	}
 </style>
