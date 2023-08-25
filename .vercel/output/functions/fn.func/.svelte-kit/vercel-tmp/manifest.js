@@ -10,13 +10,14 @@ return {
 	assets: new Set(["favicon.png"]),
 	mimeTypes: {".png":"image/png"},
 	_: {
-		client: {"start":"_app/immutable/entry/start.631300e1.js","app":"_app/immutable/entry/app.04ec5d8f.js","imports":["_app/immutable/entry/start.631300e1.js","_app/immutable/chunks/scheduler.e108d1fd.js","_app/immutable/chunks/singletons.d4cc2107.js","_app/immutable/entry/app.04ec5d8f.js","_app/immutable/chunks/scheduler.e108d1fd.js","_app/immutable/chunks/index.10baf253.js"],"stylesheets":[],"fonts":[]},
+		client: {"start":"_app/immutable/entry/start.334ae35a.js","app":"_app/immutable/entry/app.7406120a.js","imports":["_app/immutable/entry/start.334ae35a.js","_app/immutable/chunks/scheduler.4b895fe1.js","_app/immutable/chunks/singletons.f1add263.js","_app/immutable/entry/app.7406120a.js","_app/immutable/chunks/scheduler.4b895fe1.js","_app/immutable/chunks/index.bbdfbc60.js"],"stylesheets":[],"fonts":[]},
 		nodes: [
 			__memo(() => import('../output/server/nodes/0.js')),
 			__memo(() => import('../output/server/nodes/1.js')),
 			__memo(() => import('../output/server/nodes/2.js')),
 			__memo(() => import('../output/server/nodes/3.js')),
-			__memo(() => import('../output/server/nodes/4.js'))
+			__memo(() => import('../output/server/nodes/4.js')),
+			__memo(() => import('../output/server/nodes/5.js'))
 		],
 		routes: [
 			{
@@ -38,6 +39,13 @@ return {
 				pattern: /^\/profile\/?$/,
 				params: [],
 				page: { layouts: [0,], errors: [1,], leaf: 4 },
+				endpoint: null
+			},
+			{
+				id: "/test",
+				pattern: /^\/test\/?$/,
+				params: [],
+				page: { layouts: [0,], errors: [1,], leaf: 5 },
 				endpoint: null
 			}
 		],
