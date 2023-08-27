@@ -26,7 +26,7 @@ async function search(query) {
   } catch (e) {
     console.log("Error in search function");
     console.log(e);
-    return [e];
+    return [];
   }
 }
 async function authenticate() {
