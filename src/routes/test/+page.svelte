@@ -4,6 +4,8 @@
 	export let data: PageData
 </script>
 
+<h1>Test</h1>
+
 {#await data.awaited.results}
 	<p>Waiting for data...</p>
 {:then data}
