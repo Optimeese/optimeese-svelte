@@ -3,3 +3,7 @@
 		Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 	color-scheme: light dark;
 }
+
+.container {
+	max-width: 700px;
+}

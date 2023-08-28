@@ -5,8 +5,8 @@
 
 	export let data: LayoutData
 
-	let { supabase, session } = data
-	$: ({ supabase, session } = data)
+	let { supabase, session, user } = data
+	$: ({ supabase, session, user } = data)
 
 	onMount(() => {
 		const { data } = supabase.auth.onAuthStateChange((event, _session) => {
@@ -20,11 +20,33 @@
 </script>
 
 <header>
-	<h1>Optimeese</h1>
+	<h1>
+		<a href="/">Optimeese</a>
+	</h1>
+
+	<nav>
+		{#if user}
+			<a href="/account">Profile</a>
+		{:else}
+			<a href="/auth">Login</a>
+			<a href="/auth">Signup</a>
+		{/if}
+	</nav>
 </header>
 
 <slot />
 
 <style>
 	@import '../css/style.css';
+
+	header {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+
+		& a {
+			text-decoration: none;
+			color: inherit;
+		}
+	}
 </style>
