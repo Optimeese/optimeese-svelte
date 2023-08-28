@@ -12,10 +12,10 @@
 
 	let profileForm: HTMLFormElement
 	let loading = false
-	let fullName: string = profile?.full_name ?? ''
+	let full_name: string = profile?.full_name ?? ''
 	let username: string = profile?.username ?? ''
 	let website: string = profile?.website ?? ''
-	let avatarUrl: string = profile?.avatar_url ?? ''
+	let avatar_url: string = profile?.avatar_url ?? ''
 
 	const handleSubmit: SubmitFunction = () => {
 		loading = true
@@ -42,7 +42,7 @@
 >
 	<Avatar
 		{supabase}
-		bind:url={avatarUrl}
+		bind:url={avatar_url}
 		size={10}
 		on:upload={() => {
 			profileForm.requestSubmit()
@@ -54,8 +54,8 @@
 	</div>
 
 	<div>
-		<label for="fullName">Full Name</label>
-		<input id="fullName" name="fullName" type="text" value={form?.fullName ?? fullName} />
+		<label for="full_name">Full Name</label>
+		<input id="full_name" name="full_name" type="text" value={form?.full_name ?? full_name} />
 	</div>
 
 	<div>
