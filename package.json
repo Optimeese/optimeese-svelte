@@ -1,5 +1,5 @@
 {
-	"name": "optimeese",
+	"name": "sveltekit",
 	"version": "0.0.1",
 	"private": true,
 	"scripts": {
@@ -17,7 +17,6 @@
 	"devDependencies": {
 		"@playwright/test": "^1.28.1",
 		"@sveltejs/adapter-auto": "^2.0.0",
-		"@sveltejs/adapter-vercel": "^3.0.3",
 		"@sveltejs/kit": "^1.20.4",
 		"@typescript-eslint/eslint-plugin": "^5.45.0",
 		"@typescript-eslint/parser": "^5.45.0",
@@ -33,9 +32,5 @@
 		"vite": "^4.4.2",
 		"vitest": "^0.32.2"
 	},
-	"type": "module",
-	"dependencies": {
-		"@supabase/auth-helpers-sveltekit": "^0.10.2",
-		"@supabase/supabase-js": "^2.33.1"
-	}
+	"type": "module"
 }
