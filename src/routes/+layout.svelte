@@ -26,6 +26,7 @@
 
 	<nav>
 		{#if user}
+			<a href="/projects">Projects</a>
 			<a href="/account">Profile</a>
 		{:else}
 			<a href="/auth">Login</a>
