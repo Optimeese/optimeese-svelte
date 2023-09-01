@@ -1,3 +1,4 @@
+import type { Actions } from '@sveltejs/kit'
 import type { PageServerLoad } from './$types'
 
 export const load = (async ({ locals: { supabase } }) => {
@@ -22,4 +23,4 @@ export const actions = {
 			success: true
 		}
 	}
-}
+} satisfies Actions

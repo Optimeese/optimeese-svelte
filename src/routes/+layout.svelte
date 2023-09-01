@@ -26,6 +26,7 @@
 
 	<nav>
 		{#if user}
+			<a href="/workspaces">Workspaces</a>
 			<a href="/projects">Projects</a>
 			<a href="/account">Profile</a>
 		{:else}
