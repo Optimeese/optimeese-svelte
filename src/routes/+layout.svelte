@@ -25,6 +25,7 @@
 	</h1>
 
 	<nav>
+		<a href="/editor">Editor</a>
 		{#if user}
 			<a href="/workspaces">Workspaces</a>
 			<a href="/projects">Projects</a>
@@ -45,6 +46,12 @@
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
+		background-color: lightgrey;
+		padding: 1rem;
+
+		& h1 {
+			margin: 0;
+		}
 
 		& a {
 			text-decoration: none;
