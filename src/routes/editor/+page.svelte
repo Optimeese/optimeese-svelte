@@ -1,13 +1,11 @@
 <script lang="ts">
-	import { writable } from 'svelte/store'
+	import { writable, type Writable } from 'svelte/store'
 	import ruler from '$lib/icons/ruler.svg?raw'
 	import cursorarrow from '$lib/icons/cursorarrow.svg?raw'
 	import skew from '$lib/icons/skew.svg?raw'
 	import parkingsign from '$lib/icons/parkingsign.svg?raw'
 	import cablecoaxial from '$lib/icons/cable.coaxial.svg?raw'
-
 	// import type { PageData } from './$types'
-
 	// export let data: PageData
 
 	const selectables = [
@@ -24,26 +22,69 @@
 	const tools = [
 		{
 			type: 'mouse',
+			title: 'Select',
+			shortcut: { code: 'KeyV'},
 			icon: cursorarrow,
 		},
 		{
 			type: 'wall',
+			title: 'Wall',
+			shortcut: { code: 'KeyW'},
 			icon: skew
 		},
 		{
 			type: 'parking',
+			title: 'Parking',
+			shortcut: { code: 'KeyP'},
 			icon: parkingsign
 		},
 		{
 			type: 'cable',
+			title: 'Cable path',
 			icon: cablecoaxial
 		},
 	]
 	const tool = writable(tools[0])
 
+	let helpRef: HTMLDetailsElement
+
+	const keyboardEvent: Writable<null | {
+		altKey: boolean,
+		code: string,
+		composed: boolean,
+		ctrlKey: boolean,
+		key: string,
+		metaKey: boolean, 
+		shiftKey: boolean
+	}> = writable(null)
+
+	function onKeyDown(event: KeyboardEvent) {
+		if (event.isTrusted && event.currentTarget == event.target) {
+			const {altKey, code, composed, ctrlKey, key, metaKey, shiftKey} = event
+			keyboardEvent.set({altKey, code, composed, ctrlKey, key, metaKey, shiftKey})
+
+			if (code === 'KeyH')
+				helpRef.open = true
+
+			let matchingTool = tools.find(tool => 
+				tool.shortcut?.code === event.code
+			)
+
+			if (matchingTool)
+				tool.set(matchingTool)
+		}
+	}
+
+	function onKeyUp() {
+		keyboardEvent.set(null)
+	}
+
 	$: showCableDialog = $tool.type === 'cable'
 </script>
 
+<svelte:body on:keypress={onKeyDown} on:keyup={onKeyUp} />
+
+<!-- svelte-ignore a11y-no-static-element-interactions -->
 <div id="container" class="current_tool_{$tool.type}">
 	<div id="plan">
 		<img src="/demo_plan.jpg" alt="" draggable="true" />
@@ -68,8 +109,8 @@
 	</div>
 
 	<div id="sidebar">
-		<details>
-			<summary>Help</summary>
+		<details bind:this={helpRef}>
+			<summary>Help <kbd>H</kbd></summary>
 			<section>Show context help here</section>
 		</details>
 
@@ -131,7 +172,7 @@
 		
 		<nav>
 			<button>Save</button>
-			<button>Export</button>
+			<button disabled>Export</button>
 		</nav>
 	</div>
 
@@ -150,11 +191,13 @@
 				value={_tool.type}
 				bind:group={$tool.type}
 			/>
-			<label for="tool_{_tool.type}" title={_tool.type}>
+			<label for="tool_{_tool.type}" title="{_tool.title}{_tool.shortcut ? _tool.shortcut?.code.replace('Key', ' (') + ')' : ''}">
 				{@html _tool.icon}
-				<!-- <span>
-					{_tool.type}
-				</span> -->
+				{#if $keyboardEvent?.code === 'KeyH'}
+				<span>
+					{_tool.title}{#if _tool.shortcut}<kbd>{_tool.shortcut.code.replace('Key', '')}</kbd>{/if}
+				</span>
+				{/if}
 			</label>
 		{/each}
 	</div>

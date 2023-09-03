@@ -10,3 +10,14 @@ body {
 .container {
 	max-width: 700px;
 }
+
+kbd {
+	border-radius: 0.5rem;
+	background-color: #fefefe;
+	color: #000;
+	vertical-align: baseline;
+	line-height: initial;
+	display: inline-block;
+	padding: 0.375rem 0.5rem;
+	border: solid 1px #ccc;
+}

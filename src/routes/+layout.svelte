@@ -26,6 +26,7 @@
 
 	<nav>
 		<a href="/editor">Editor</a>
+		<a href="/improvements">Improvements</a>
 		{#if user}
 			<a href="/workspaces">Workspaces</a>
 			<a href="/projects">Projects</a>
