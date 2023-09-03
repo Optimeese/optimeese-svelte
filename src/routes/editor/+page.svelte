@@ -4,6 +4,7 @@
 	import cursorarrow from '$lib/icons/cursorarrow.svg?raw'
 	import skew from '$lib/icons/skew.svg?raw'
 	import parkingsign from '$lib/icons/parkingsign.svg?raw'
+	import mappinandellipse from '$lib/icons/mappin.and.ellipse.svg?raw'
 	import cablecoaxial from '$lib/icons/cable.coaxial.svg?raw'
 	// import type { PageData } from './$types'
 	// export let data: PageData
@@ -37,6 +38,11 @@
 			title: 'Parking',
 			shortcut: { code: 'KeyP'},
 			icon: parkingsign
+		},
+		{
+			type: 'pin',
+			title: 'Add a pin',
+			icon: mappinandellipse
 		},
 		{
 			type: 'cable',
@@ -81,18 +87,16 @@
 
 	$: showCableDialog = $tool.type === 'cable'
 
-	const scales = [0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2, 3, 4, 5]
+	const scales = [0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 	const scale = writable(1)
 
 	function zoomIn() {
 		const index = scales.findIndex(s => s === $scale)
-		console.log('zoom, in, ', index, $scale, scales[index + 1])
 		scale.set(scales[index + 1] || scales[index])
 	}
 	
 	function zoomOut() {
 		const index = scales.findIndex(s => s === $scale)
-		console.log('zoom, out, ', index, $scale, scales[index - 1])
 		scale.set(scales[index - 1] || scales[index])
 	}
 </script>
@@ -124,15 +128,26 @@
 
 		<div id="zoom">
 			<button on:click={zoomOut}>-</button>
-			<button>{$scale * 100}%</button>
+			<button on:click={() => scale.set(1)}>{$scale * 100}%</button>
 			<button on:click={zoomIn}>+</button>
 		</div>
+
+		<dialog open={showCableDialog}>
+			<h1>Cable path</h1>
+			<p>Current distance: 127.3m</p>
+			<button>Create cable path automatically</button>
+		</dialog>
 	</div>
 
 	<div id="sidebar">
 		<details bind:this={helpRef}>
 			<summary>Help <kbd>H</kbd></summary>
-			<section>Show context help here</section>
+			<section>
+				<p>Show context help here</p>
+				{#if $selected.type !== 'none'}
+				<p>Example: What is a {$selected.type}?</p>
+				{/if}
+			</section>
 		</details>
 
 		<details open>
@@ -197,12 +212,6 @@
 		</nav>
 	</div>
 
-	<dialog open={showCableDialog}>
-		<h1>Cable path</h1>
-		<p>Current distance: 127.3m</p>
-		<button>Create cable path automatically</button>
-	</dialog>
-
 	<div id="toolbar">
 		{#each tools as _tool}
 			<input
@@ -251,7 +260,8 @@
 	}
 
 	.current_tool_wall,
-	.current_tool_parking {
+	.current_tool_parking,
+	.current_tool_pin {
 		& #plan {
 			cursor: copy;
 		}
@@ -326,9 +336,6 @@
 
 			& svg {
 				margin: auto;
-				& * {
-					fill: currentColor;
-				}
 			}
 		}
 	}
@@ -345,6 +352,14 @@
 		right: 0;
 		bottom: 0;
 		grid-template-columns: max-content auto max-content;
+	}
+
+	dialog {
+		box-sizing: border-box;
+		width: calc(100% - var(--spacing) * 6);
+		height: calc(100% - var(--spacing) * 2);
+		margin: 0 0 0 calc(var(--spacing) * 6);
+		padding: 0;
 	}
 
 	#temp {
