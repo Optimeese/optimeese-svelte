@@ -80,6 +80,21 @@
 	}
 
 	$: showCableDialog = $tool.type === 'cable'
+
+	const scales = [0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2, 3, 4, 5]
+	const scale = writable(1)
+
+	function zoomIn() {
+		const index = scales.findIndex(s => s === $scale)
+		console.log('zoom, in, ', index, $scale, scales[index + 1])
+		scale.set(scales[index + 1] || scales[index])
+	}
+	
+	function zoomOut() {
+		const index = scales.findIndex(s => s === $scale)
+		console.log('zoom, out, ', index, $scale, scales[index - 1])
+		scale.set(scales[index - 1] || scales[index])
+	}
 </script>
 
 <svelte:body on:keypress={onKeyDown} on:keyup={onKeyUp} />
@@ -87,7 +102,7 @@
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <div id="container" class="current_tool_{$tool.type}">
 	<div id="plan">
-		<img src="/demo_plan.jpg" alt="" draggable="true" />
+		<img src="/demo_plan.jpg" alt="" draggable="true" style="scale: {$scale};"/>
 
 		<div id="temp">
 			<form>
@@ -105,6 +120,12 @@
 					{/each}
 				</fieldset>
 			</form>
+		</div>
+
+		<div id="zoom">
+			<button on:click={zoomOut}>-</button>
+			<button>{$scale * 100}%</button>
+			<button on:click={zoomIn}>+</button>
 		</div>
 	</div>
 
@@ -219,6 +240,7 @@
 		max-height: 100%;
 		display: grid;
 		overflow: hidden;
+		position: relative;
 
 		& img {
 			position: relative;
@@ -268,11 +290,11 @@
 		}
 	}
 
-	#toolbar {
+	#toolbar, #zoom {
 		display: grid;
 		flex-direction: column;
 		justify-content: center;
-		position: fixed;
+		position: absolute;
 		justify-self: start;
 		left: 0;
 		align-self: center;
@@ -289,28 +311,40 @@
 		& > input:checked + label {
 			background-color: color-mix(in oklab, #000 10%, #fff);
 		}
-	}
 
-	#toolbar label {
-		display: grid;
-		justify-content: center;
-		align-items: center;
-		width: 3rem;
-		height: 3rem;
-		padding: calc(var(--spacing) * 0.5);
-		outline: solid transparent 2px;
-		cursor: pointer;
+		& > :is(label, button) {
+			display: grid;
+			justify-content: center;
+			align-items: center;
+			width: 3rem;
+			height: 3rem;
+			padding: calc(var(--spacing) * 0.5);
+			outline: solid transparent 2px;
+			cursor: pointer;
+			border: 0;
+			outline: 0;
 
-		&:not(:first-child) {
-			border-top: solid var(--color-lines) 1px;
-		}
-
-		& svg {
-			margin: auto;
-			& * {
-				fill: currentColor;
+			& svg {
+				margin: auto;
+				& * {
+					fill: currentColor;
+				}
 			}
 		}
+	}
+
+	#toolbar > label:not(:first-child) {
+		border-top: solid var(--color-lines) 1px;
+	}
+	#zoom > button:not(:first-child) {
+		border-left: solid var(--color-lines) 1px;
+	}
+
+	#zoom {
+		left: unset;
+		right: 0;
+		bottom: 0;
+		grid-template-columns: max-content auto max-content;
 	}
 
 	#temp {
