@@ -1,4 +1,5 @@
 <script lang="ts">
+	import '../../css/style.css'
 	import type { LayoutData } from './$types'
 	import { invalidate } from '$app/navigation'
 	import { onMount } from 'svelte'
@@ -19,10 +20,8 @@
 	})
 </script>
 
-<header>
-	<h1>
-		<a href="/">Optimeese</a>
-	</h1>
+<header class="container">
+	<a href="/" id="logo">Optimeese</a>
 
 	<nav>
 		<a href="/editor">Editor</a>
@@ -38,25 +37,15 @@
 	</nav>
 </header>
 
-<slot />
+<main class="container">
+	<slot />
+</main>
 
 <style>
-	@import '../css/style.css';
-
-	header {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		background-color: lightgrey;
-		padding: 1rem;
-
-		& h1 {
-			margin: 0;
-		}
-
-		& a {
-			text-decoration: none;
-			color: inherit;
-		}
+	#logo {
+		color: var(--h1-color);
+		text-decoration: none;
+		font-size: 1.5rem;
+		font-weight: 400;
 	}
 </style>

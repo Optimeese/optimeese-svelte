@@ -24,30 +24,30 @@
 		{
 			type: 'mouse',
 			title: 'Select',
-			shortcut: { code: 'KeyV'},
+			shortcut: { code: 'KeyV' },
 			icon: cursorarrow,
 		},
 		{
 			type: 'wall',
 			title: 'Wall',
-			shortcut: { code: 'KeyW'},
-			icon: skew
+			shortcut: { code: 'KeyW' },
+			icon: skew,
 		},
 		{
 			type: 'parking',
 			title: 'Parking',
-			shortcut: { code: 'KeyP'},
-			icon: parkingsign
+			shortcut: { code: 'KeyP' },
+			icon: parkingsign,
 		},
 		{
 			type: 'pin',
 			title: 'Add a pin',
-			icon: mappinandellipse
+			icon: mappinandellipse,
 		},
 		{
 			type: 'cable',
 			title: 'Cable path',
-			icon: cablecoaxial
+			icon: cablecoaxial,
 		},
 	]
 	const tool = writable(tools[0])
@@ -55,29 +55,25 @@
 	let helpRef: HTMLDetailsElement
 
 	const keyboardEvent: Writable<null | {
-		altKey: boolean,
-		code: string,
-		composed: boolean,
-		ctrlKey: boolean,
-		key: string,
-		metaKey: boolean, 
+		altKey: boolean
+		code: string
+		composed: boolean
+		ctrlKey: boolean
+		key: string
+		metaKey: boolean
 		shiftKey: boolean
 	}> = writable(null)
 
 	function onKeyDown(event: KeyboardEvent) {
 		if (event.isTrusted && event.currentTarget == event.target) {
-			const {altKey, code, composed, ctrlKey, key, metaKey, shiftKey} = event
-			keyboardEvent.set({altKey, code, composed, ctrlKey, key, metaKey, shiftKey})
+			const { altKey, code, composed, ctrlKey, key, metaKey, shiftKey } = event
+			keyboardEvent.set({ altKey, code, composed, ctrlKey, key, metaKey, shiftKey })
 
-			if (code === 'KeyH')
-				helpRef.open = true
+			if (code === 'KeyH') helpRef.open = true
 
-			let matchingTool = tools.find(tool => 
-				tool.shortcut?.code === event.code
-			)
+			let matchingTool = tools.find((tool) => tool.shortcut?.code === event.code)
 
-			if (matchingTool)
-				tool.set(matchingTool)
+			if (matchingTool) tool.set(matchingTool)
 		}
 	}
 
@@ -91,12 +87,12 @@
 	const scale = writable(1)
 
 	function zoomIn() {
-		const index = scales.findIndex(s => s === $scale)
+		const index = scales.findIndex((s) => s === $scale)
 		scale.set(scales[index + 1] || scales[index])
 	}
-	
+
 	function zoomOut() {
-		const index = scales.findIndex(s => s === $scale)
+		const index = scales.findIndex((s) => s === $scale)
 		scale.set(scales[index - 1] || scales[index])
 	}
 </script>
@@ -106,7 +102,7 @@
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <div id="container" class="current_tool_{$tool.type}">
 	<div id="plan">
-		<img src="/demo_plan.jpg" alt="" draggable="true" style="scale: {$scale};"/>
+		<img src="/demo_plan.jpg" alt="" draggable="true" style="scale: {$scale};" />
 
 		<div id="temp">
 			<form>
@@ -118,8 +114,7 @@
 							name="selected"
 							id="selected_{selectable.type}"
 							value={selectable.type}
-							bind:group={$selected.type}
-						/>
+							bind:group={$selected.type} />
 						<label for="selected_{selectable.type}">{selectable.type}</label>
 					{/each}
 				</fieldset>
@@ -145,7 +140,7 @@
 			<section>
 				<p>Show context help here</p>
 				{#if $selected.type !== 'none'}
-				<p>Example: What is a {$selected.type}?</p>
+					<p>Example: What is a {$selected.type}?</p>
 				{/if}
 			</section>
 		</details>
@@ -155,11 +150,11 @@
 			<section>
 				{#if $selected.type === 'none'}
 					<p>You haven't selected anything.</p>
-					
+
 					<form>
 						{@html ruler}
 						<label for="plan_scale">Set the scale <abbr title="Meters">m</abbr></label>
-						<input type="number" name="plan_scale" id="plan_scale" value="25">
+						<input type="number" name="plan_scale" id="plan_scale" value="25" />
 					</form>
 				{/if}
 				{#if $selected.type === 'background'}
@@ -204,8 +199,8 @@
 			</section>
 		</details>
 
-		<div class="grow"></div>
-		
+		<div class="grow" />
+
 		<nav>
 			<button>Save</button>
 			<button disabled>Export</button>
@@ -219,14 +214,18 @@
 				name="selected"
 				id="tool_{_tool.type}"
 				value={_tool.type}
-				bind:group={$tool.type}
-			/>
-			<label for="tool_{_tool.type}" title="{_tool.title}{_tool.shortcut ? _tool.shortcut?.code.replace('Key', ' (') + ')' : ''}">
+				bind:group={$tool.type} />
+			<label
+				for="tool_{_tool.type}"
+				title="{_tool.title}{_tool.shortcut
+					? _tool.shortcut?.code.replace('Key', ' (') + ')'
+					: ''}">
 				{@html _tool.icon}
 				{#if $keyboardEvent?.code === 'KeyH'}
-				<span>
-					{_tool.title}{#if _tool.shortcut}<kbd>{_tool.shortcut.code.replace('Key', '')}</kbd>{/if}
-				</span>
+					<span>
+						{_tool.title}{#if _tool.shortcut}<kbd>{_tool.shortcut.code.replace('Key', '')}</kbd
+							>{/if}
+					</span>
 				{/if}
 			</label>
 		{/each}
@@ -279,11 +278,11 @@
 			padding: var(--spacing);
 		}
 
-		&>*:not(:first-child) {
+		& > *:not(:first-child) {
 			border-top: solid var(--color-lines) 1px;
 			/* padding-top: var(--spacing); */
 		}
-		
+
 		& section {
 			padding: var(--spacing);
 		}
@@ -300,7 +299,8 @@
 		}
 	}
 
-	#toolbar, #zoom {
+	#toolbar,
+	#zoom {
 		display: grid;
 		flex-direction: column;
 		justify-content: center;

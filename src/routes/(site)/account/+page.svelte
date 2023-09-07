@@ -34,52 +34,49 @@
 </script>
 
 <form
-	class="form-widget"
+	id="profile"
 	method="post"
 	action="?/update"
 	use:enhance={handleSubmit}
-	bind:this={profileForm}
->
-	<Avatar
-		{supabase}
-		bind:url={avatar_url}
-		size={10}
-		on:upload={() => {
-			profileForm.requestSubmit()
-		}}
-	/>
+	bind:this={profileForm}>
 	<div>
 		<label for="email">Email</label>
 		<input id="email" type="text" value={session.user.email} disabled />
-	</div>
 
-	<div>
 		<label for="full_name">Full Name</label>
 		<input id="full_name" name="full_name" type="text" value={form?.full_name ?? full_name} />
-	</div>
 
-	<div>
 		<label for="username">Username</label>
 		<input id="username" name="username" type="text" value={form?.username ?? username} />
-	</div>
 
-	<div>
 		<label for="website">Website</label>
 		<input id="website" name="website" type="url" value={form?.website ?? website} />
-	</div>
 
+		<div>
+			<input type="submit" value={loading ? 'Loading...' : 'Update'} disabled={loading} />
+		</div>
+	</div>
 	<div>
-		<input
-			type="submit"
-			class="button block primary"
-			value={loading ? 'Loading...' : 'Update'}
-			disabled={loading}
-		/>
+		<Avatar
+			{supabase}
+			bind:url={avatar_url}
+			size={10}
+			on:upload={() => {
+				profileForm.requestSubmit()
+			}} />
+
+		<form method="post" action="?/signout" use:enhance={handleSignOut}>
+			<div>
+				<button class="button block" disabled={loading}>Sign Out</button>
+			</div>
+		</form>
 	</div>
 </form>
 
-<form method="post" action="?/signout" use:enhance={handleSignOut}>
-	<div>
-		<button class="button block" disabled={loading}>Sign Out</button>
-	</div>
-</form>
+<style>
+	form#profile {
+		display: grid;
+		gap: var(--spacing);
+		grid-template-columns: 1fr 1fr;
+	}
+</style>
