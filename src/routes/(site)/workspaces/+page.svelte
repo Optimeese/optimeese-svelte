@@ -10,7 +10,7 @@
 
 <form method="POST" action="?/create">
 	<label for="name">Name</label>
-	<input type="text" id="name" name="name" placeholder="New workspace name" />
+	<input type="text" id="name" name="name" placeholder="New workspace name" autocomplete="off" />
 	<button type="submit">Create</button>
 </form>
 
@@ -19,20 +19,29 @@
 		{JSON.stringify(workspaces.error, null, 2)}
 	</pre>
 {:else}
-	<pre>
-		{JSON.stringify(workspaces, null, 2)}
-	</pre>
-	<ul>
+	<section>
 		{#each workspaces.data as workspace}
-			<li>
-				<a href="/workspaces/{workspace.id}">
+			<a href="/workspaces/{workspace.id}">
+				<article>
 					<h2>
 						{workspace.name} ({workspace.workspace_status})
 					</h2>
 					<span>{workspace.invite_status}</span>
 					<span>{workspace.role}</span>
-				</a>
-			</li>
+				</article>
+			</a>
 		{/each}
-	</ul>
+	</section>
 {/if}
+
+<style>
+	section {
+		display: grid;
+		gap: var(--spacing);
+	}
+
+	article {
+		background-color: var(--grey-100);
+		border: none;
+	}
+</style>

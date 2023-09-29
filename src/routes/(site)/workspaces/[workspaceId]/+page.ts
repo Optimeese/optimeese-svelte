@@ -4,6 +4,6 @@ export const load = (async ({ parent, params }) => {
 	const { workspaces } = await parent()
 
 	return {
-		workspace: workspaces.data.find(({ id }) => id === params.workspaceId)
+		workspace: workspaces.data.find(({ id }: { id: string }) => id === params.workspaceId)
 	}
 }) satisfies PageLoad

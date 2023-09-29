@@ -77,14 +77,12 @@
 			{uploading ? 'Uploading ...' : 'Upload'}
 		</label>
 		<input
-			style="visibility: hidden; position:absolute;"
 			type="file"
 			id="single"
 			accept="image/*"
 			bind:files
 			on:change={uploadAvatar}
-			disabled={uploading}
-		/>
+			disabled={uploading} />
 	</div>
 </div>
 
